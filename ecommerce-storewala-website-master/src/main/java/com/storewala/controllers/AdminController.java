@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.Principal;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -54,6 +55,7 @@ public class     AdminController {
 		return "admin/index";
 	}
 
+
 	@GetMapping("/action")
 	public String action(@RequestParam(value = "user_id", required = false) Integer id,
 			@RequestParam(name = "user", required = false) String type,
@@ -95,7 +97,9 @@ public class     AdminController {
 
 			}
 
+
 		}
+
 
 		/* =============================== */
 

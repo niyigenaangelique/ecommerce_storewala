@@ -1,6 +1,7 @@
 package com.storewala.daos;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
 	@Query(value = "select * from products where product_seller_id = ?", nativeQuery = true)
 	public List<Product> getSellerAllProducts(@Param("id") int id);
+
 
 }

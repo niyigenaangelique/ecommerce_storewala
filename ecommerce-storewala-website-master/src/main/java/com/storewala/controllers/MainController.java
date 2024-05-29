@@ -10,6 +10,7 @@ import java.util.Random;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.storewala.daos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -25,16 +26,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.storewala.daos.CategoryRepository;
-import com.storewala.daos.CommentRepository;
-import com.storewala.daos.ProductRepository;
-import com.storewala.daos.UnbanRequestRepository;
-import com.storewala.daos.UserRepository;
 import com.storewala.entities.Category;
 import com.storewala.entities.Comment;
 import com.storewala.entities.Product;
 import com.storewala.entities.UnbanRequest;
 import com.storewala.entities.User;
+import com.storewala.entities.Order;
 
 @Controller
 public class MainController {
@@ -46,7 +43,8 @@ public class MainController {
 
 	@Autowired
 	private CategoryRepository categoryRepo;
-
+	@Autowired
+	private OrderRepository orderRepo;
 	@Autowired
 	private ProductRepository productRepo;
 
@@ -186,7 +184,7 @@ public class MainController {
 			User user = this.userRepo.loadUserByUserName(auth.getName());
 
 			if (user.getRole().equals("ROLE_CUSTOMER")) {
-				return "redirect:/customer/home";
+				return "redirect:/home";
 			}
 			if (user.getRole().equals("ROLE_ADMIN")) {
 				return "redirect:/admin/home";
@@ -299,6 +297,32 @@ public class MainController {
 		return "profile";
 	}
 
+//	@GetMapping("/checkout")
+//	public String checkOut(Model m, Principal principal, HttpSession httpSession) {
+//
+//		if (principal == null) {
+//			httpSession.setAttribute("status", "not-login");
+//			return "redirect:/home";
+//		}
+//
+//		int pinCode = new Random().nextInt(999999);
+//
+//		User user = this.userRepo.loadUserByUserName(principal.getName());
+//
+//		if (user.getRole().equals("ROLE_SELLER") || user.getRole().equals("ROLE_ADMIN")) {
+//			httpSession.setAttribute("status",
+//					user.getRole().equals("ROLE_SELLER") ? "seller-not-allow" : "admin-not-allow");
+//			return user.getRole().equals("ROLE_SELLER") ? "redirect:/seller/home" : "redirect:/admin/home";
+//		}
+//
+//
+//
+//		m.addAttribute("user", user);
+//		m.addAttribute("pincode", String.format("%06d", pinCode));
+//		m.addAttribute("title", "Checkout | StoreWala");
+//		return "checkout";
+//	}
+
 	@GetMapping("/checkout")
 	public String checkOut(Model m, Principal principal, HttpSession httpSession) {
 
@@ -317,12 +341,41 @@ public class MainController {
 			return user.getRole().equals("ROLE_SELLER") ? "redirect:/seller/home" : "redirect:/admin/home";
 		}
 
+		// Create a new Order object and set default values
+		Order order = new Order();
+		order.setStatus("not completed");
+		order.setUserId(user.getId()); // Assuming the User entity has a getId() method
+
+		// Add the Order object to the model
+		m.addAttribute("order", order);
 		m.addAttribute("user", user);
 		m.addAttribute("pincode", String.format("%06d", pinCode));
 		m.addAttribute("title", "Checkout | StoreWala");
+
 		return "checkout";
 	}
-	
+
+
+	@PostMapping("/checkout")
+	public String saveOrder(@ModelAttribute("order") Order order, @RequestParam("address") String address,@RequestParam("total_price") String total_price,@RequestParam("product_name") String product_name, Principal principal) {
+
+		System.out.println("Cart Total Amount: " + product_name);
+		System.out.println("Cart Total Amount: " + total_price);
+		User user = this.userRepo.loadUserByUserName(principal.getName());
+		order.setCustomerName(user.getName());
+		order.setUserId(user.getId());
+		order.setAddress(address);
+		order.setProduct(product_name);
+		order.setAmount(total_price);
+		orderRepo.save(order);
+		return "redirect:/home";
+	}
+
+	@GetMapping("/confirmation")
+	public String orderConfirmation() {
+		return "order-confirmation";
+	}
+
 
 	@GetMapping("/showProduct")
 	public String productDetail(@RequestParam(name = "product_id", required = false) Integer id, Model m,
@@ -395,7 +448,15 @@ public class MainController {
 	 * 
 	 */
 
-	@GetMapping("/MyOrders")
+
+
+//	@GetMapping("/order/processing-order")
+//	public String orderProcessing() {
+//		return "order_status.html";
+//	}
+
+
+	@GetMapping("/myOrders")
 	public String orderStatus() {
 		return "order_status.html";
 	}

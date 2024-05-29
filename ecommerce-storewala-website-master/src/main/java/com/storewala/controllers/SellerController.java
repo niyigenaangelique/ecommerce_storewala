@@ -13,6 +13,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.storewala.daos.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,8 @@ import com.storewala.daos.UserRepository;
 import com.storewala.entities.Category;
 import com.storewala.entities.Product;
 import com.storewala.entities.User;
+import com.storewala.entities.Order;
+
 
 @Controller
 @RequestMapping("/seller")
@@ -49,6 +52,9 @@ public class SellerController {
 	private ProductRepository productRepo;
 
 	@Autowired
+	private OrderRepository orderRepo;
+
+	@Autowired
 	private CategoryRepository categoryRepo;
 
 	@Autowired
@@ -59,6 +65,7 @@ public class SellerController {
 
 		User user = this.userRepo.loadUserByUserName(principal.getName());
 		List<Product> sellerProducts = this.productRepo.getSellerAllProducts(user.getId());
+		List<Order> sellerOrders = this.orderRepo.getAllOrdersByUserId();
 
 		List<Category> categories = this.categoryRepo.getCategories();
 
@@ -66,6 +73,7 @@ public class SellerController {
 		m.addAttribute("product", new Product());
 		m.addAttribute("categories", categories);
 		m.addAttribute("user", user);
+		m.addAttribute("order", sellerOrders);
 		m.addAttribute("products", sellerProducts);
 		return "seller/index";
 	}

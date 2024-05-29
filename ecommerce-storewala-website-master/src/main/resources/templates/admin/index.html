@@ -22,35 +22,16 @@
 					<div class="card-body">
 
 						<div class="row">
-
 							<div class="col col-xs-6">
-
 								<h1 class="fs-45">[(${#lists.size(users)})]</h1>
 								<h6>Registered Users</h6>
-
-
-
-
 							</div>
-
 							<div class="col col-xs-6 text-end">
-
-								<button data-bs-toggle="modal" data-bs-target="#users-modal"
-									class="btn bg-white txt-green col-12 mt-3 p-3 fw-bold">View
-									Users</button>
-
+								<button data-bs-toggle="modal" data-bs-target="#users-modal" class="btn bg-white txt-green col-12 mt-3 p-3 fw-bold">View Users</button>
 							</div>
-
 						</div>
-
-
-
 					</div>
-
-
 				</div>
-
-
 			</div>
 
 			<div class="col-md-6 col-lg-4 mb-2">
@@ -72,12 +53,16 @@
 
 							<div class="col col-xs-6 text-end">
 
-								<button class="btn bg-white txt-orange col-12 mt-3 p-3 fw-bold"
-									onclick="">VIEW PRODUCTS</button>
+<!--								<button class="btn bg-white txt-orange col-12 mt-3 p-3 fw-bold"-->
+<!--									onclick="">VIEW PRODUCTS</button>-->
+
+								<button data-bs-toggle="modal" data-bs-target="#products-modal"
+										class="btn bg-white txt-green col-12 mt-3 p-3 fw-bold">View
+									Products</button>
 
 
 							</div>
-							
+
 						</div>
 
 
@@ -136,9 +121,6 @@
 			</div>
 
 
-
-
-
 		</div>
 
 	</div>
@@ -149,8 +131,7 @@
 		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title fw-bold" id="exampleModalLabel">StoreWala
-						Users</h5>
+					<h5 class="modal-title fw-bold" id="exampleModalLabel">StoreWala Users</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
@@ -237,6 +218,98 @@
 
 	<!-- Users Modal End -->
 
+	<!-- Products Modal -->
+	<div class="modal fade" id="products-modal" tabindex="-1"
+		 aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold" id="exampleModalLabel">StoreWala
+						Users</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="main-box clearfix">
+									<div class="table-responsive">
+										<table class="table user-list">
+											<thead>
+											<tr>
+												<th><span>ID</span></th>
+												<th><span>Name</span></th>
+												<th><span>Price</span></th>
+												<th class="text-center"><span>Discount</span></th>
+												<th><span>Highlights</span></th>
+												<th><span>Owner</span></th>
+												<th>&nbsp;</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr th:each="p : ${products}">
+												<td>[(${p.id})]</td>
+												<td><img
+														src="https://bootdey.com/img/Content/avatar/avatar1.png"
+														alt=""> <a href="#" class="user-link text-bg-color">[(${p.name})]</a>
+												</td>
+												<td>[(${p.price})]</td>
+												<td><a href="#" class="text-bg-color">[(${p.discount})]</a></td>
+												<td><a href="#" class="text-bg-color">[(${p.highlights})]</a></td>
+
+												<td><a href="#" class="text-bg-color">[(${p.sellerName})] kgh</a></td>
+												<td><a href="#" class="table-link danger"> <span
+														class="fa-stack"> <i
+														class="fa fa-square fa-stack-2x"></i> <i
+														th:onclick="|deleteProduct(${p.id})|" rel="tooltip"
+														title="Delete"
+														class="fa-solid fa-trash fa-stack-1x fa-inverse"></i>
+														</span>
+												</a>
+
+													<a href="#" class="table-link"> <span class="fa-stack">
+																<i class="fa fa-square fa-stack-2x"></i> <i
+															rel="tooltip"
+															title="Update"
+															class="fa fa-pencil fa-stack-1x fa-inverse bg-success"></i>
+														</span>
+													</a>
+
+
+												</td>
+											</tr>
+
+											</tbody>
+										</table>
+									</div>
+
+									<hr>
+
+									<ul class="pagination mb-sm-0">
+										<li class="page-item"><a href="#" class="page-link"><i
+												class="mdi mdi-chevron-left"></i></a></li>
+										<li class="page-item active"><a href="#"
+																		class="page-link">1</a></li>
+										<li class="page-item"><a href="#" class="page-link"><i
+												class="mdi mdi-chevron-right"></i></a></li>
+									</ul>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Products Modal End -->
+
 
 	<!-- Category Modal Add Start -->
 	<div class="modal fade" id="category_add" tabindex="-1"
@@ -252,16 +325,16 @@
 
 					<form action="action?category=add" method="get" th:object="${category}">
 						<div class="mb-3">
-							<label for="exampleInputEmail1" class="form-label">Category Title</label> 
-							
+							<label for="exampleInputEmail1" class="form-label">Category Title</label>
+
 							<input type="hidden"  value="addNew" name="category">
-							
+
 							<input name="title" type="text" class="form-control">
 							<p class="fs-10 text-danger mt-1">Make sure the category you want to add don't exist already.</p>
-								
-							
+
+
 						</div>
-						
+
 						<button type="submit" class="btn primary-background text-white col-12">Add Category</button>
 					</form>
 
@@ -273,6 +346,8 @@
 	</div>
 
 	<!-- Category Modal Add End -->
+
+
 
 
 	<!-- Category Modal View Start -->

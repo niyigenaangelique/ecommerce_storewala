@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:replace="base::Layout(~{::body})">
@@ -71,8 +72,9 @@
 
 							<div class="col col-xs-6 text-end">
 
-								<button class="btn btn-success col-12 mt-3 p-4 fw-bold"
-									onclick="">VIEW PRODUCTS</button>
+								<button data-bs-toggle="modal" data-bs-target="#products-modal"
+										class="btn bg-white txt-green col-12 mt-3 p-3 fw-bold">View
+									Products</button>
 
 							</div>
 
@@ -106,7 +108,7 @@
 	<br>
 
 	<h3 class="fw-bold card-title text-center">
-		Total Orders: <span class="text-muted">0</span>
+		Total Orders: <span class="text-muted">[[${#lists.size(order)}]]</span>
 	</h3>
 
 	<br>
@@ -147,25 +149,25 @@
 													<th scope="col">Status</th>
 													<th scope="col">Created</th>
 													<th scope="col">Delivery Date</th>
-													<th scope="col">Quantities</th>
+													<th scope="col">Amount</th>
 													<th scope="col">Product</th>
-													
+
 													<th scope="col" style="width: 200px;">Action</th>
 												</tr>
 											</thead>
 											<tbody>
 
-												<tr>
-													<td>#SW010101</td>
+											<tr th:each="o :  ${order}">
+													<td>AAB-[(${o.id})]</td>
 													<td><img
 														src="https://bootdey.com/img/Content/avatar/avatar1.png"
 														alt="" class="avatar-sm rounded-circle me-2" /><a
-														href="#" class="text-body">This Is Default</a></td>
-													<td><span class="badge badge-soft-primary mb-0">Default</span></td>
-													<td>01/12/2024</td>
-													<td>01/12/2024</td>
-													<td>00</td>
-													<td>Product ID: #00</td>
+														href="#" class="text-body">[(${o.customerName})]</a></td>
+													<td><span class="badge badge-soft-primary mb-0">[(${o.status})]</span></td>
+													<td>[(${#dates.format(o.created, 'dd-MMM-yyyy')})]</td>
+													<td>[(${#dates.format(o.created, 'dd-MMM-yyyy')})]</td>
+													<td>[(${o.Amount})]</td>
+													<td>[(${o.product})]</td>
 													<td><a href="#" class="table-link"> <span class="fa-stack">
 																<i class="fa fa-square fa-stack-2x"></i> <i
 																rel="tooltip"
@@ -173,7 +175,7 @@
 																class="fa fa-ban fa-stack-1x fa-inverse bg-danger"></i>
 														</span>
 													</a>
-													
+
 													<a href="#" class="table-link"> <span class="fa-stack">
 																<i class="fa fa-square fa-stack-2x"></i> <i
 																rel="tooltip"
@@ -181,8 +183,8 @@
 																class="fa fa-pencil fa-stack-1x fa-inverse bg-success"></i>
 														</span>
 													</a>
-													
-													
+
+
 													</td>
 												</tr>
 
@@ -218,12 +220,98 @@
 
 	</div>
 
+	<!-- Start Product Modal -->
+	<div class="modal fade" id="products-modal" tabindex="-1"
+		 aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold" id="exampleModalLabel">StoreWala
+						Users</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="main-box clearfix">
+									<div class="table-responsive">
+										<table class="table user-list">
+											<thead>
+											<tr>
+												<th><span>ID</span></th>
+												<th><span>Name</span></th>
+												<th><span>Price</span></th>
+												<th class="text-center"><span>Discount</span></th>
+												<th><span>Highlights</span></th>
+												<th><span>Owner</span></th>
+												<th>&nbsp;</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr th:each="p : ${products}">
+												<td>[(${p.id})]</td>
+												<td><img
+														src="https://bootdey.com/img/Content/avatar/avatar1.png"
+														alt=""> <a href="#" class="user-link text-bg-color">[(${p.name})]</a>
+												</td>
+												<td>[(${p.price})]</td>
+												<td><a href="#" class="text-bg-color">[(${p.discount})]</a></td>
+												<td><a href="#" class="text-bg-color">[(${p.highlights})]</a></td>
+
+												<td><a href="#" class="text-bg-color">[(${p.sellerName})] kgh</a></td>
+												<td><a href="#" class="table-link"> <span class="fa-stack">
+																<i class="fa fa-square fa-stack-2x"></i> <i
+														rel="tooltip"
+														title="Cancel"
+														class="fa fa-ban fa-stack-1x fa-inverse bg-danger"></i>
+														</span>
+												</a>
+
+													<a href="#" class="table-link"> <span class="fa-stack">
+																<i class="fa fa-square fa-stack-2x"></i> <i
+															rel="tooltip"
+															title="Update"
+															class="fa fa-pencil fa-stack-1x fa-inverse bg-success"></i>
+														</span>
+													</a>
 
 
-	<!-- STart Product Modal -->
+												</td>
+											</tr>
 
+											</tbody>
+										</table>
+									</div>
+
+									<hr>
+
+									<ul class="pagination mb-sm-0">
+										<li class="page-item"><a href="#" class="page-link"><i
+												class="mdi mdi-chevron-left"></i></a></li>
+										<li class="page-item active"><a href="#"
+																		class="page-link">1</a></li>
+										<li class="page-item"><a href="#" class="page-link"><i
+												class="mdi mdi-chevron-right"></i></a></li>
+									</ul>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- Products Modal End -->
 
 	<!-- Modal -->
+
 	<div class="modal fade" id="product-modal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-xl">
@@ -339,7 +427,7 @@
 												<span class="text-success">(Upto 5 images)</span>
 											<hr>
 											<span class="text-danger">Note: The product showcase image should be at the first index to show on the homepage, and it should be in PNG format.</span>
-											<hr>	
+											<hr>
 											<div id="dvPreview"></div>
 										</div>
 
@@ -370,7 +458,6 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- End Product modal -->
 
 

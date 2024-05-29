@@ -11,7 +11,7 @@
 	<br>
 
 	<div class="container">
-		<form action="/order/processing-order" method="POST" class="row">
+		<form action="/checkout" method="POST" class="row">
 		
 		<input type="hidden" name="user_id" th:value="${user.id}">
 
@@ -21,8 +21,9 @@
 
 					<div class="card-body">
 
-						<h3 class="text-center fw-bold mb-3">Your Selected Items:</h3>
-						<div class="cart-body"></div>
+						<h3 class="text-center fw-bold mb-3">Your Selected Items are here:</h3>
+						<div class="cart-body">
+						</div>
 
 					</div>
 

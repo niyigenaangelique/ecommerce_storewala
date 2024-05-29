@@ -6,6 +6,110 @@
 	<title>Document</title>
 </head>
 <body>
-	
+	<br>
+<br>
+<div class="container">
+	<form action="myOrders" method="POST" class="row">
+
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-12">
+
+					<div class="card shadowed-1 mb-3">
+
+						<div class="container">
+							<div class="row align-items-center">
+								<div class="col-md-6"></div>
+								<div class="col-md-6">
+									<div
+											class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+										<div></div>
+
+
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="">
+										<div class="table-responsive">
+											<table
+													class="table project-list-table table-nowrap align-middle table-borderless">
+												<thead>
+												<tr>
+													<th scope="col">ORDER ID</th>
+													<th scope="col">Name</th>
+													<th scope="col">Status</th>
+													<th scope="col">Created</th>
+													<th scope="col">Delivery Date</th>
+													<th scope="col">Amount</th>
+													<th scope="col">Product</th>
+
+													<th scope="col" style="width: 200px;">Action</th>
+												</tr>
+												</thead>
+												<tbody>
+
+												<tr th:each="o :  ${order}">
+													<td>AAB-[(${o.id})]</td>
+													<td><img
+															src="https://bootdey.com/img/Content/avatar/avatar1.png"
+															alt="" class="avatar-sm rounded-circle me-2" /><a
+															href="#" class="text-body">[(${o.customerName})]</a></td>
+													<td><span class="badge badge-soft-primary mb-0">[(${o.status})]</span></td>
+													<td>[(${#dates.format(o.created, 'dd-MMM-yyyy')})]</td>
+													<td>[(${#dates.format(o.created, 'dd-MMM-yyyy')})]</td>
+													<td>[(${o.Amount})]</td>
+													<td>[(${o.product})]</td>
+													<td><a href="#" class="table-link"> <span class="fa-stack">
+																<i class="fa fa-square fa-stack-2x"></i> <i
+															rel="tooltip"
+															title="Cancel"
+															class="fa fa-ban fa-stack-1x fa-inverse bg-danger"></i>
+														</span>
+													</a>
+
+
+
+
+													</td>
+												</tr>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row g-0 align-items-center pb-4">
+								<div class="col-sm-6"></div>
+								<hr>
+								<div class="col-sm-6">
+									<div class="float-sm-center">
+										<ul class="pagination mb-sm-0">
+											<li class="page-item disabled"><a href="#"
+																			  class="page-link"><i class="mdi mdi-chevron-left"></i></a></li>
+											<li class="page-item active"><a href="#" class="page-link">1</a></li>
+											<li class="page-item"><a href="#" class="page-link"><i class="mdi mdi-chevron-right"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</form>
+</div>
 </body>
 </html>

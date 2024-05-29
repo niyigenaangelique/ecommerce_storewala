@@ -84,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				String redirectURL = request.getContextPath();
 				
 				if(user.getRole().equals("ROLE_CUSTOMER")) {
-					redirectURL = "/customer/home";
+					redirectURL = "/home";
 				}
 				if(user.getRole().equals("ROLE_SELLER")) {
 					redirectURL = "/seller/home";

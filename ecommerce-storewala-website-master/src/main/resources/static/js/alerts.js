@@ -265,9 +265,25 @@ function deleteUser(id) {
 	})
 		.then((willDelete) => {
 			if (willDelete) {
-
 				window.location = "action?user=delete&user_id=" + id;
+			} else {
 
+			}
+		});
+
+}
+function deleteProduct(id) {
+
+	swal({
+		title: "Are you sure?",
+		text: "Do you want to delete this product?",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	})
+		.then((willDelete) => {
+			if (willDelete) {
+				window.location = "action?user=delete&user_id=" + id;
 			} else {
 
 			}
